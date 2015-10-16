@@ -5,7 +5,7 @@ class DockingStation
 attr_accessor :capacity
 attr_accessor :bikes
 attr_accessor :working_status
-#
+
     def initialize(capacity = 20)
       @capacity = capacity
       @bikes = []
