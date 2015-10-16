@@ -1,6 +1,8 @@
 require 'docking_station'
 
 describe DockingStation do
+  let(:bike) { double :bike }
+
   it {is_expected.to(respond_to(:release_bike))}
 
   it 'expects to be able to dock a bike at the docking station' do
@@ -28,7 +30,6 @@ describe DockingStation do
         expect(subject.release_bike).to eq bike
       end
 
-
       it 'raises an error when there are no bikes available' do
         expect { subject.release_bike }.to raise_error 'There are no bikes available'
       end
@@ -49,22 +50,31 @@ describe DockingStation do
       end
     end
 
+    # it 'a bike is docked with an working? attribute of false' do
+    #   my_bike = double(:bike)
+    #   allow(my_bike).to receive(:working?).and_return(false)
+    #   allow(my_bike).to receive(:working).and_return(false)
+    #   bike_status = my_bike.working?(false)
+    #   docking_status = subject.dock(my_bike, bike_status)
+    #   expect(docking_status.working).to eq false
+
+    # end
     it 'a bike is docked with an working? attribute of false' do
       my_bike = double(:bike)
-      bike_status = my_bike.working?(false)
-      docking_status = subject.dock(my_bike, bike_status)
-      expect(docking_status.working).to eq false
-
+      allow(my_bike).to receive(:working?).and_return(false)
+      allow(my_bike).to receive(:working).and_return(false)
+      my_bike.working(false)
+      subject.dock(my_bike, my_bike.working)
+      expect(subject.bikes.last.working).to eq false
     end
 
     it 'does not release broken bikes' do
       my_bike = double(:bike)
+      allow(my_bike).to receive(:working?).and_return(false)
+      allow(my_bike).to receive(:working).and_return(false)
       my_bike.working?(false)
       subject.dock(my_bike, my_bike.working)
       expect {subject.release_bike}.to raise_error 'The bike is broken'
     end
-
-
-
 
 end

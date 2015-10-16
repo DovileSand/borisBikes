@@ -9,5 +9,5 @@ describe Bike do
         expect(my_bike.working?(false)).to eq false
     end
 
-    
+
 end
